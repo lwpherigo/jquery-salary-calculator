@@ -2,6 +2,7 @@ console.log('js');
 
 const companyEmployees = [];
 let monthlyTotal = 0;
+const monthlyMax = 20000;
 
 $(document).ready(init);
 
@@ -25,6 +26,12 @@ function submitEmployee(event) {
         salary: parseInt($('#salary').val()),
     };
 
+    // const employeeObject = {};
+    // const valueArray = $('#employeeForm').serializeArray();
+    // for(let item of valueArray) {
+    //      employeeObject[item.name] = item.value;   
+    // };
+
     addToSpreadsheet(employeeObject);
     resetInputs();
 }
@@ -45,6 +52,7 @@ function resetInputs() {
 function render() {
     $('.js-employeeInfo').empty();
     monthlyExpenses();
+    
 
     for(let i = 0; i < companyEmployees.length; i++) {
         const employee = companyEmployees[i];
@@ -61,13 +69,17 @@ function render() {
         `);
     }
 
-    $('.js-totalMonthly').text(`Monthly Total: $${monthlyTotal}`);
+    if(monthlyTotal < monthlyMax) {
+        $('.js-totalMonthly').text(`Monthly Total: $${monthlyTotal}`);
+    } else if(monthlyTotal >= monthlyMax) {
+        $('.js-totalMonthly').text(`Monthly Total: $${monthlyTotal}`).css('background-color', 'rgb(221, 61, 61)');
+    } 
 }
 
 function monthlyExpenses() {
     monthlyTotal = 0;
     for(let entry of companyEmployees) {
-        monthlyTotal += (entry.salary / 12);
+        monthlyTotal += (entry.salary / 12).toFixed(2);
     }
 }
 
