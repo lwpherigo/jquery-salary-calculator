@@ -53,7 +53,6 @@ function render() {
     $('.js-employeeInfo').empty();
     monthlyExpenses();
     
-
     for(let i = 0; i < companyEmployees.length; i++) {
         const employee = companyEmployees[i];
 
@@ -79,8 +78,11 @@ function render() {
 function monthlyExpenses() {
     monthlyTotal = 0;
     for(let entry of companyEmployees) {
-        monthlyTotal += (entry.salary / 12).toFixed(2);
+        console.log(entry);
+        monthlyTotal += (entry.salary / 12);
     }
+    monthlyTotal = monthlyTotal.toFixed(2);
+    
 }
 
 function deleteEmployee() {
